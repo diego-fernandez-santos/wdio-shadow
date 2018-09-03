@@ -1,0 +1,10 @@
+{
+  "name": "wdio-shadow",
+  "version": "0.0.0",
+  "description": "WebdriverIO ShadowDOM Tests",
+  "main": "index.js",
+  "dependencies": {
+    "wdio-selenium-standalone-service": "0.0.8",
+    "webdriverio": "~4.8.0"
+  }
+}
