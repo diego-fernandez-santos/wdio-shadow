@@ -53,7 +53,6 @@ function shadowElement(selector, multiple, baseElement) {
             }
             return foundElement;
         };
-
     }
 
     function findParentOrHost(element) {
@@ -73,23 +72,12 @@ function shadowElement(selector, multiple, baseElement) {
                 }
             }
         };
-
         findAllElements(document.querySelectorAll('*'));
-
         return selector ? allElements.filter(el => el.matches(selector)) : allElements;
     }
-
-    var result;
-    if (! multiple) {
-        if (!selector) {
-            result = baseElement || document.documentElement;
-        } else {
-            result = querySelectorDeep(selector);
-        }
-    } else {
-        result = querySelectorAllDeep(selector);
-    }
-
+    var result = multiple ? querySelectorAllDeep(selector):
+                   selector ? querySelectorDeep(selector):
+                       (baseElement || document.documentElement);
     return result;
 }
 
