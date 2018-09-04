@@ -7,9 +7,6 @@ const browser = commands.init.call(this, wdio.remote(options).init());
 
 browser
   .url('https://shop.polymer-project.org/')
-//  .timeouts('implicit', 5000)
-//  .element('not-exists')
-//    .click()
   .shadowElement('div:nth-child(2) > shop-button')
     .click()
   .waitUntil(() =>

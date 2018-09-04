@@ -103,9 +103,9 @@ module.exports = {
       return lastResult;
     }
 
-    browser.addCommand("shadowElement", (selector, multiple) => {
+    browser.addCommand("shadowElement", function (selector, multiple) {
       const baseElement = getLastResult.apply(this);
-      return browser
+      return this
         .execute(shadowElement, selector, multiple === true, baseElement)
         .then((result) => {
           const myResult = Object.assign({}, result, { selector: selector });
@@ -113,20 +113,25 @@ module.exports = {
         });
     });
 
-    browser.addCommand("shadowExecute", (arg1, arg2) => {
+    browser.addCommand("shadowExecute", function(arg1, arg2) {
       if (typeof arg1 === 'function') {
         const elem = getLastResult.apply(this);
-        return browser.execute(arg1, elem);
+        return this.execute(arg1, elem);
       } else {
-        return browser
+        return this
           .shadowElement(arg1)
-          .then(r => browser.execute(arg2, r.value));
+          .then(r => this.execute(arg2, r.value));
       }
     });
 
     if (overwrite) {
-      browser.addCommand("element", s => browser.shadowElement(s), true);
-      browser.addCommand("elements", s => browser.shadowElement(s, true), true);
+      browser.addCommand("element", function (s) {
+        return this.shadowElement(s);
+      }, true);
+
+      browser.addCommand("elements", function(s) {
+        return this.shadowElement(s, true);
+      }, true);
     }
 
     return browser;
