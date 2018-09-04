@@ -2,7 +2,7 @@
   "name": "wdio-shadow",
   "version": "0.0.0",
   "description": "WebdriverIO ShadowDOM Tests",
-  "main": "index.js",
+  "main": "test1.js",
   "dependencies": {
     "webdriverio": "~4.8.0",
     "chai": "~4.1.2",
