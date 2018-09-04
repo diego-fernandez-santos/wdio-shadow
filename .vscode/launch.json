@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "node",
+            "protocol": "auto",
+            "program": "${workspaceFolder}/test1",
+            "autoAttachChildProcesses": false,
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "runtimeArgs" : [ "--nolazy"],
+            "console": "integratedTerminal",
+            "request": "launch",
+            // "runtimeArgs": [
+            //     "--nolazy"
+            // ],
+            // "sourceMaps": true,
+        }
+    ]
+}

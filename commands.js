@@ -1,4 +1,4 @@
-function shadowElement(selector, multiple, baseElement, expression) {
+function shadowElement(selector, multiple, baseElement) {
     function querySelectorAllDeep(selector) {
         return _querySelectorDeep(selector, true);
     }
@@ -79,23 +79,68 @@ function shadowElement(selector, multiple, baseElement, expression) {
         return selector ? allElements.filter(el => el.matches(selector)) : allElements;
     }
 
-//    debugger;
-
-    var r;
-
+    var result;
     if (! multiple) {
         if (!selector) {
-            r = baseElement || document.documentElement;
+            result = baseElement || document.documentElement;
         } else {
-            r = querySelectorDeep(selector);
+            result = querySelectorDeep(selector);
         }
     } else {
-        r = querySelectorAllDeep(selector);
+        result = querySelectorAllDeep(selector);
     }
 
-    console.log("diego " + selector + "\n" + r);
-
-    return r;
+    return result;
 }
 
-module.exports = shadowElement;
+module.exports = {
+  init: function(browser, overwrite) {
+
+    function noSuchElement(result) {
+      return {
+        status: 7,
+        type: 'NoSuchElement',
+        message: 'An element could not be located on the page using the given search parameters.',
+        state: 'failure',
+        sessionId: result.sessionId,
+        value: null,
+        selector: result.selector
+      }
+    };
+
+    function getLastResult() {
+      const lastResult = (this.lastPromise && this.lastPromise.inspect().value)
+        ? this.lastPromise.inspect().value.value
+        : null;
+      return lastResult;
+    }
+
+    browser.addCommand("shadowElement", (selector, multiple) => {
+      const baseElement = getLastResult.apply(this);
+      return browser
+        .execute(shadowElement, selector, multiple === true, baseElement)
+        .then((result) => {
+          const myResult = Object.assign({}, result, { selector: selector });
+          return (myResult.value !== null) ? myResult : noSuchElement(myResult);
+        });
+    });
+
+    browser.addCommand("shadowExecute", (arg1, arg2) => {
+      if (typeof arg1 === 'function') {
+        const elem = getLastResult.apply(this);
+        return browser.execute(arg1, elem);
+      } else {
+        return browser
+          .shadowElement(arg1)
+          .then(r => browser.execute(arg2, r.value));
+      }
+    });
+
+    if (overwrite) {
+      browser.addCommand("element", s => browser.shadowElement(s), true);
+      browser.addCommand("elements", s => browser.shadowElement(s, true), true);
+    }
+
+    return browser;
+  }
+};

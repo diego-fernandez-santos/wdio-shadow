@@ -4,7 +4,8 @@
   "description": "WebdriverIO ShadowDOM Tests",
   "main": "index.js",
   "dependencies": {
-    "wdio-selenium-standalone-service": "0.0.8",
-    "webdriverio": "~4.8.0"
+    "webdriverio": "~4.8.0",
+    "chai": "~4.1.2",
+    "chai-as-promised": "~7.1.1"
   }
 }
