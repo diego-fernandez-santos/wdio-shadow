@@ -1,4 +1,5 @@
-function shadowElement(selector, multiple, baseElement, expression) {
+module.exports = function (selector, multiple, baseElement) {
+
     function querySelectorAllDeep(selector) {
         return _querySelectorDeep(selector, true);
     }
@@ -79,23 +80,7 @@ function shadowElement(selector, multiple, baseElement, expression) {
         return selector ? allElements.filter(el => el.matches(selector)) : allElements;
     }
 
-//    debugger;
-
-    var r;
-
-    if (! multiple) {
-        if (!selector) {
-            r = baseElement || document.documentElement;
-        } else {
-            r = querySelectorDeep(selector);
-        }
-    } else {
-        r = querySelectorAllDeep(selector);
-    }
-
-    console.log("diego " + selector + "\n" + r);
-
-    return r;
+    return multiple ? querySelectorAllDeep(selector):
+            selector ? querySelectorDeep(selector):
+                (baseElement || document.documentElement)
 }
-
-module.exports = shadowElement;

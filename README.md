@@ -4,5 +4,5 @@ To run the example launch the following commands:
 
 ```
 npm i
-node index.js
+node .
 ```
