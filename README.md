@@ -7,3 +7,9 @@ npm i
 node test1.js
 node test2.js
 ```
+
+# Credit
+
+This project is based on [query-selector-shadow-dom](https://www.npmjs.com/package/query-selector-shadow-dom).
+
+
